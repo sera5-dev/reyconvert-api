@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Provider;
 use App\Rate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,20 +12,10 @@ class RateController extends Controller
 	public function index()
 	{
 		try {
-			$providers = DB::table('rates')
-				->join('providers', 'rates.provider_id', '=', 'providers.id')
-				->select(
-					'rates.provider_id',
-					'providers.nama',
-					'rates.rate',
-					'rates.pulsa',
-					'rates.uang',
-					'providers.logo'
-				)
-				->get();
+			$data = $this->getData();
 
 			return response()->json([
-				'data' => $providers,
+				'data' => $data,
 				'message' => 'data successfully retrieved',
 			], 201);
 		} catch (\Exception $e) {
@@ -42,22 +33,10 @@ class RateController extends Controller
 			if ($request->filled('r_id')) {
 
 				// @detail
-				$act = "retrieve";
-				$provider = DB::table('rates')
-					->where('rates.id', $request->input('r_id'))
-					->join('providers', 'rates.provider_id', '=', 'providers.id')
-					->select(
-						'rates.provider_id',
-						'providers.nama',
-						'rates.rate',
-						'rates.pulsa',
-						'rates.uang',
-						'providers.logo'
-					)
-					->get();
+				$data = $this->getData($request->input('r_id'));
 
 				return response()->json([
-					'data' => $provider,
+					'data' => $data,
 					'message' => 'rate successfully retrieved',
 				], 201);
 			} else {
@@ -123,5 +102,28 @@ class RateController extends Controller
 				'error' => $e,
 			], 409);
 		}
+	}
+
+	static function getData($id = null)
+	{
+		$data = [];
+		if ($id)
+			$providers = Provider::where('id', $id)->get();
+		else
+			$providers = Provider::all();
+
+		foreach ($providers as $p => $provider) {
+			$data[$p]['id'] 				= $provider->id;
+			$data[$p]['provider'] 	= $provider->nama;
+			$data[$p]['logo'] 			= $provider->logo;
+			$rates = Rate::where('provider_id', $provider->id)->get();
+			foreach ($rates as $r => $rate) {
+				$data[$p]['rate'][$r]['id']			= $rate->id;
+				$data[$p]['rate'][$r]['rate']		= $rate->rate;
+				$data[$p]['rate'][$r]['pulsa']	= $rate->pulsa;
+				$data[$p]['rate'][$r]['uang']		= $rate->uang;
+			}
+		}
+		return $data;
 	}
 }
