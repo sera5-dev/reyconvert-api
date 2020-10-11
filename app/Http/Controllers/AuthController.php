@@ -36,7 +36,6 @@ class AuthController extends Controller
 	}
 	public function login(Request $request)
 	{
-		//validate incoming request 
 		$this->validate($request, [
 			'username' => 'required|string',
 			'password' => 'required|string',
@@ -45,7 +44,9 @@ class AuthController extends Controller
 		$credentials = $request->only(['username', 'password']);
 
 		if (!$token = Auth::attempt($credentials)) {
-			return response()->json(['message' => 'Unauthorized'], 401);
+			return response()->json([
+				'message' => 'login failed'
+			], 401);
 		}
 		return response()->json([
 			'token' => $token,
