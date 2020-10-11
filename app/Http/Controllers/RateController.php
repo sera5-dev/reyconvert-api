@@ -17,7 +17,6 @@ class RateController extends Controller
 	public function index(Request $request)
 	{
 		try {
-			dd($request->r_id);
 			$data = $this->getData();
 
 			return response()->json([
