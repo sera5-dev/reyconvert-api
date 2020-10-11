@@ -20,6 +20,6 @@ class Rate extends Model
 
 	public function provider()
 	{
-		$this->belongsTo('\App\Provider');
+		return $this->belongsTo('Provider');
 	}
 }

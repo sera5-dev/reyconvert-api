@@ -18,6 +18,6 @@ class Provider extends Model
 
 	public function rates()
 	{
-		return $this->hasMany('\App\Rate');
+		return $this->hasMany('Rate');
 	}
 }
