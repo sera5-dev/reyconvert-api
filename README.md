@@ -1,3 +1,3 @@
 # Reyconvert API 
 
-[Collection](https://github.com/sera5-dev/reyconvert-collection).
+[Collection](https://github.com/sera5-dev/reyconvert-collection)

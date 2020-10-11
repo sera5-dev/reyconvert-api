@@ -9,15 +9,21 @@ use Illuminate\Support\Facades\DB;
 
 class RateController extends Controller
 {
-	public function index()
+	public function __construct()
+	{
+		$this->middleware('auth:api', ['except' => ['index']]);
+	}
+
+	public function index(Request $request)
 	{
 		try {
+			dd($request->r_id);
 			$data = $this->getData();
 
 			return response()->json([
 				'data' => $data,
 				'message' => 'data successfully retrieved',
-			], 201);
+			], 200);
 		} catch (\Exception $e) {
 			return response()->json([
 				'message' => 'retrieve data failed',
@@ -38,7 +44,7 @@ class RateController extends Controller
 				return response()->json([
 					'data' => $data,
 					'message' => 'rate successfully retrieved',
-				], 201);
+				], 200);
 			} else {
 				if ($request->filled('id')) {
 
@@ -95,7 +101,7 @@ class RateController extends Controller
 			}
 			return response()->json([
 				'message' => $obj . ' successfully ' . $act . "d",
-			], 201);
+			], 200);
 		} catch (\Exception $e) {
 			return response()->json([
 				'message' => $act . ' ' . $obj . ' failed',

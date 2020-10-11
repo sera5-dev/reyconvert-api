@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProviderController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth:api', ['except' => ['index']]);
+	}
+
 	public function index()
 	{
 		try {
