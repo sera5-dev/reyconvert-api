@@ -21,6 +21,7 @@ $router->get('/', function () use ($router) {
 
 $router->post('/login', 		'AuthController@login');
 $router->post('/register', 	'AuthController@register');
+$router->delete('/unregister', 	'AuthController@unregister');
 $router->get('/logout', 		'AuthController@logout');
 
 $router->group(

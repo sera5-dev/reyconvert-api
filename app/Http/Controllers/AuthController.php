@@ -73,18 +73,17 @@ class AuthController extends Controller
 		}
 	}
 
-	public function user()
+	public function unregister(Request $request)
 	{
 		try {
-			$data = User::all();
+			User::findOrFail($request->input('id'))->delete();
 
 			return response()->json([
-				'data' => $data,
-				'message' => 'user successfully retrieved',
+				'message' => 'user successfully deleted',
 			]);
 		} catch (\Exception $e) {
 			return response()->json([
-				'message' => 'retrieve user failed',
+				'message' => 'delete user failed',
 				'error' => $e
 			]);
 		}
