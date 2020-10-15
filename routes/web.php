@@ -2,6 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -38,3 +40,19 @@ $router->group(
 		$router->delete('/', 'RateController@destroy');
 	}
 );
+
+$router->get('/user', function () {
+	try {
+		$data = User::all();
+
+		return response()->json([
+			'data' => $data,
+			'message' => 'user successfully retrieved',
+		]);
+	} catch (\Exception $e) {
+		return response()->json([
+			'message' => 'retrieve user failed',
+			'error' => $e
+		]);
+	}
+});

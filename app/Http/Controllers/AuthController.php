@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth:api', ['except' => ['login']]);
+	}
+
 	public function register(Request $request)
 	{
 		$this->validate($request, [
@@ -65,6 +70,23 @@ class AuthController extends Controller
 				'message' => 'user logout failed',
 				'error' => $e,
 			], 409);
+		}
+	}
+
+	public function user()
+	{
+		try {
+			$data = User::all();
+
+			return response()->json([
+				'data' => $data,
+				'message' => 'user successfully retrieved',
+			]);
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => 'retrieve user failed',
+				'error' => $e
+			]);
 		}
 	}
 }
