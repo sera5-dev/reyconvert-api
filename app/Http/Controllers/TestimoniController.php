@@ -46,6 +46,7 @@ class TestimoniController extends Controller
       $testimoni->gambar    = $request->input('gambar');
       $testimoni->video     = $request->input('video');
       $testimoni->star      = $request->input('star');
+      $testimoni->tanggal   = $request->input('tanggal');
 
       $testimoni->save();
 

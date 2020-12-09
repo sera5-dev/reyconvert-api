@@ -18,12 +18,5 @@ class DatabaseSeeder extends Seeder
       ProviderSeeder::class,
       RateSeeder::class,
     ]);
-
-    User::create([
-      'email' => 'admin@sera5.id',
-      'username' => 'admin',
-      'password' => md5('admin'),
-      'nama' => 'admin',
-    ]);
   }
 }
