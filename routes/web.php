@@ -14,45 +14,54 @@
 */
 
 $router->get('/', function () use ($router) {
-	return $router->app->version();
+  return $router->app->version();
 });
 
-$router->post('/login', 				'AuthController@login');
-$router->post('/register', 			'AuthController@register');
-$router->delete('/unregister', 	'AuthController@unregister');
-$router->get('/logout', 				'AuthController@logout');
+$router->post('/login',         'AuthController@login');
+$router->post('/register',      'AuthController@register');
+$router->delete('/unregister',  'AuthController@unregister');
+$router->get('/logout',         'AuthController@logout');
 
 $router->group(
-	['prefix' => 'provider'],
-	function ($router) {
-		$router->get('/', 		'ProviderController@index');
-		$router->post('/', 		'ProviderController@store');
-		$router->delete('/', 	'ProviderController@destroy');
-	}
+  ['prefix' => 'provider'],
+  function ($router) {
+    $router->get('/',     'ProviderController@index');
+    $router->post('/',    'ProviderController@store');
+    $router->delete('/',  'ProviderController@destroy');
+  }
 );
 
 $router->group(
-	['prefix' => 'rate'],
-	function ($router) {
-		$router->get('/', 		'RateController@index');
-		$router->post('/', 		'RateController@store');
-		$router->delete('/', 	'RateController@destroy');
-	}
+  ['prefix' => 'rate'],
+  function ($router) {
+    $router->get('/',     'RateController@index');
+    $router->post('/',    'RateController@store');
+    $router->delete('/',  'RateController@destroy');
+  }
 );
 
 $router->group(
-	['prefix' => 'user'],
-	function ($router) {
-		$router->get('/', 		'UserController@index');
-		//$router->post('/', 		'UserController@update');
-	}
+  ['prefix' => 'user'],
+  function ($router) {
+    $router->get('/',     'UserController@index');
+    //$router->post('/', 		'UserController@update');
+  }
 );
 
 $router->group(
-	['prefix' => 'testimoni'],
-	function ($router) {
-		$router->get('/', 		'TestimoniController@index');
-		$router->post('/', 		'TestimoniController@store');
-		$router->delete('/', 	'TestimoniController@destroy');
-	}
+  ['prefix' => 'testimoni'],
+  function ($router) {
+    $router->get('/',     'TestimoniController@index');
+    $router->post('/',    'TestimoniController@store');
+    $router->delete('/',  'TestimoniController@destroy');
+  }
+);
+
+$router->group(
+  ['prefix' => 'blog'],
+  function ($router) {
+    $router->get('/',     'BlogController@index');
+    $router->post('/',    'BlogController@store');
+    $router->delete('/',  'BlogController@destroy');
+  }
 );
