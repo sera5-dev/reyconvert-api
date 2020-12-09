@@ -8,65 +8,71 @@ use Illuminate\Support\Facades\DB;
 
 class TestimoniController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('auth:api', ['except' => ['index']]);
-	}
+  public function __construct()
+  {
+    $this->middleware('auth:api', ['except' => ['index']]);
+  }
 
-	public function index()
-	{
-		try {
-			$data = Testimoni::all();
-			return response()->json([
-				'data' => $data,
-				'message' => 'testimoni successfully received',
-			], 201);
-		} catch (\Exception $e) {
-			return response()->json(['error' => $e], 409);
-		}
-	}
-	public function store(Request $request)
-	{
-		$this->validate($request, [
-			'nama' 			=> 'required|string',
-			'kontak' 		=> 'required|string',
-			'komentar' 	=> 'required|string',
-		]);
-		try {
-			$request->filled('id') ?
-				$testimoni = Testimoni::findOrFail($request->input('id')) :
-				$testimoni = new Testimoni();
+  public function index()
+  {
+    try {
+      $data = Testimoni::all();
+      return response()->json([
+        'data' => $data,
+        'message' => 'testimoni successfully received',
+      ], 201);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e], 409);
+    }
+  }
 
-			$testimoni->nama 			= $request->input('nama');
-			$testimoni->kontak 		= $request->input('kontak');
-			$testimoni->komentar 	= $request->input('komentar');
+  public function store(Request $request)
+  {
+    $this->validate($request, [
+      'nama'       => 'required|string',
+      'kontak'     => 'required|string',
+      'komentar'   => 'required|string',
+      'star'       => 'required|integer',
+    ]);
 
-			$testimoni->save();
+    try {
+      $request->filled('id') ?
+        $testimoni = Testimoni::findOrFail($request->input('id')) :
+        $testimoni = new Testimoni();
 
-			return response()->json([
-				'message' => 'testimoni successfully stored'
-			], 201);
-		} catch (\Exception $e) {
-			return response()->json(['error' => $e], 409);
-		}
-	}
-	public function destroy(Request $request)
-	{
-		try {
-			$request->filled('id') ?
-				Testimoni::findOrFail($request->input('id'))->delete() :
-				DB::table('testimonis')->truncate();
+      $testimoni->nama      = $request->input('nama');
+      $testimoni->kontak    = $request->input('kontak');
+      $testimoni->komentar  = $request->input('komentar');
+      $testimoni->gambar    = $request->input('gambar');
+      $testimoni->video     = $request->input('video');
+      $testimoni->star      = $request->input('star');
 
-			return response()->json([
-				'message' => 'testimoni successfully destroyed'
-			], 201);
-		} catch (\Exception $e) {
-			return response()->json([
-				'message' => 'destroy testimoni failed',
-				'error' => $e
-			], 409);
-		}
-	}
+      $testimoni->save();
+
+      return response()->json([
+        'message' => 'testimoni successfully stored'
+      ], 201);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e], 409);
+    }
+  }
+  public function destroy(Request $request)
+  {
+    try {
+      $request->filled('id') ?
+        Testimoni::findOrFail($request->input('id'))->delete() :
+        DB::table('testimonis')->truncate();
+
+      return response()->json([
+        'message' => 'testimoni successfully destroyed'
+      ], 201);
+    } catch (\Exception $e) {
+      return response()->json([
+        'message' => 'destroy testimoni failed',
+        'error' => $e
+      ], 409);
+    }
+  }
 }
 		//try {
 			//return response()->json([], 201);
